@@ -1,0 +1,58 @@
+name: Bug report
+description: Report a reproducible defect, regression, or numerical inconsistency.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not include credentials, proprietary market data, or vulnerability details. Follow
+        SECURITY.md for suspected security issues.
+  - type: input
+    id: version
+    attributes:
+      label: VolForge version or commit
+      placeholder: 1.11.0 or a commit SHA
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python version, and interface (package, CLI, or Streamlit).
+      placeholder: Windows 11, Python 3.12, CLI
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide the smallest deterministic example and any non-sensitive inputs.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and diagnostics
+      description: Include tracebacks, structured failure output, or numerical residuals.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: State the financial convention, tolerance, seed, or reference value when relevant.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I removed credentials and proprietary or personal data.
+          required: true
+        - label: This is not a privately reportable security vulnerability.
+          required: true

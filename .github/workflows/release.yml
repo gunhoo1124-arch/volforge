@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  UV_VERSION: "0.12.19"
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  release:
+    name: Verify and publish GitHub release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: false
+
+      - name: Install locked dependencies
+        run: uv sync --locked --dev
+
+      - name: Require tag and project versions to match
+        shell: bash
+        run: |
+          project_version="$(uv run python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"
+          test "${GITHUB_REF_NAME}" = "v${project_version}"
+
+      - name: Run release quality gates
+        run: |
+          uv run ruff format --check .
+          uv run ruff check .
+          uv run pytest --cov-fail-under=85
+
+      - name: Build distributions and checksums
+        shell: bash
+        run: |
+          uv build --out-dir release-dist
+          cd release-dist
+          sha256sum *.whl *.tar.gz > SHA256SUMS
+
+      - name: Install and exercise release wheel
+        shell: bash
+        run: |
+          uv venv .release-smoke --python "${PYTHON_VERSION}"
+          uv pip install --python .release-smoke/bin/python release-dist/*.whl
+          .release-smoke/bin/python -c "import volforge; print(volforge.__version__)"
+          .release-smoke/bin/volforge --help
+
+      - name: Retain verified release artifacts
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-${{ github.ref_name }}
+          path: release-dist/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "${GITHUB_REF_NAME}" release-dist/*
+          --verify-tag
+          --generate-notes
+          --title "VolForge ${GITHUB_REF_NAME}"

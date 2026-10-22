@@ -1,0 +1,33 @@
+# Python and uv
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-tmp/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+dist/
+release-dist/
+build/
+*.egg-info/
+.package-smoke/
+.release-smoke/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local data and Streamlit secrets
+data/*.csv
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite.raw/
+reports/
+.streamlit/secrets.toml
+*.pem
+*.key

@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use VolForge in research, please cite the software using this metadata."
+title: VolForge
+type: software
+version: 1.11.0
+date-released: 2026-10-21
+authors:
+  - name: Frontier_Psychic
+    alias: gunhoo1124-arch
+abstract: >-
+  An offline-first, arbitrage-aware derivatives pricing, implied-volatility,
+  calibration, and option-chain research laboratory.
+keywords:
+  - derivatives
+  - Heston model
+  - implied volatility
+  - options
+  - quantitative finance
+  - SSVI
+  - SVI
+license: MIT
+repository-code: "https://github.com/gunhoo1124-arch/volforge"
+url: "https://github.com/gunhoo1124-arch/volforge"
