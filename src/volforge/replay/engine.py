@@ -228,10 +228,11 @@ def _json_value(value: Any) -> Any:
     if isinstance(value, float):
         return None if not math.isfinite(value) else value
     try:
-        if pd.isna(value):
-            return None
+        is_missing = pd.isna(value)
     except (TypeError, ValueError):
-        pass
+        is_missing = False
+    if isinstance(is_missing, (bool, np.bool_)) and bool(is_missing):
+        return None
     return str(value)
 
 
@@ -316,10 +317,11 @@ def _canonical_deliverable(value: object, multiplier: float, row: pd.Series) -> 
     deliverable = value
     if deliverable is not None:
         try:
-            if pd.isna(deliverable):
-                deliverable = None
+            is_missing = pd.isna(deliverable)
         except (TypeError, ValueError):
-            pass
+            is_missing = False
+        if isinstance(is_missing, (bool, np.bool_)) and bool(is_missing):
+            deliverable = None
     underlying_id = row.get("underlying_id")
     if underlying_id is not None and pd.isna(underlying_id):
         underlying_id = None

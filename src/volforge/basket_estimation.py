@@ -12,6 +12,10 @@ import numpy as np
 import pandas as pd
 
 from volforge.basket import BasketAssetMarket, BasketMarket
+from volforge.basket_fixtures import (
+    synthetic_hedge_instruments_json,
+    synthetic_smile_hedge_instruments_json,
+)
 from volforge.basket_inputs.store import (
     BASKET_INPUT_COLUMNS,
     SYNTHETIC_BASKET_ID,
@@ -471,10 +475,6 @@ def _generate_synthetic_statistical_basket_inputs(
     include_smile_hedges: bool,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     from volforge.basket_replay import generate_synthetic_basket_replay
-    from volforge.basket_risk_hedging import (
-        synthetic_hedge_instruments_json,
-        synthetic_smile_hedge_instruments_json,
-    )
 
     replay = generate_synthetic_basket_replay()
     anchor_spots = {

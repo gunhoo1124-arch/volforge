@@ -494,12 +494,16 @@ def _desired_positions(
         if not math.isfinite(condition):
             condition = settings.condition_limit * 10.0
         condition_numbers.append(condition)
+        solved = False
         if condition <= settings.condition_limit:
             try:
                 raw[path] = np.linalg.solve(system, target_exposure)
-                continue
             except np.linalg.LinAlgError:
-                pass
+                solved = False
+            else:
+                solved = True
+        if solved:
+            continue
         ill_conditioned += 1
         raw[path] = np.linalg.lstsq(system, target_exposure, rcond=1.0 / settings.condition_limit)[
             0

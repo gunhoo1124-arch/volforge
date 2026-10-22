@@ -386,14 +386,14 @@ def _refinement_limits(
     final: HedgeAggregate,
     settings: HedgeRobustnessSettings,
 ) -> tuple[float, float]:
-    mean_sampling = 1.959963984540054 * math.sqrt(
-        previous.pnl_standard_error**2 + final.pnl_standard_error**2
+    mean_sampling = 1.959963984540054 * math.hypot(
+        previous.pnl_standard_error, final.pnl_standard_error
     )
     previous_std_error = previous.pnl_standard_deviation / math.sqrt(
         max(2.0 * (previous.samples - 1), 1.0)
     )
     final_std_error = final.pnl_standard_deviation / math.sqrt(max(2.0 * (final.samples - 1), 1.0))
-    volatility_sampling = 1.959963984540054 * math.sqrt(previous_std_error**2 + final_std_error**2)
+    volatility_sampling = 1.959963984540054 * math.hypot(previous_std_error, final_std_error)
     mean_limit = (
         settings.absolute_tolerance
         + settings.relative_tolerance * max(abs(final.mean_pnl), 1.0)

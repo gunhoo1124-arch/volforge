@@ -125,10 +125,11 @@ def _json_scalar(value: Any) -> Any:
     if isinstance(value, float):
         return None if not math.isfinite(value) else value
     try:
-        if pd.isna(value):
-            return None
+        is_missing = pd.isna(value)
     except (TypeError, ValueError):
-        pass
+        is_missing = False
+    if isinstance(is_missing, (bool, np.bool_)) and bool(is_missing):
+        return None
     return str(value)
 
 

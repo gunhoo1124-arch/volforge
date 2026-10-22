@@ -30,6 +30,9 @@ project uses semantic versioning.
 - Package version advanced to 1.11.0.
 - Statistical-estimate and covariance-selection materializers now preserve option-quote provenance
   columns for downstream replay validation.
+- Static-analysis findings were eliminated by separating deterministic basket fixtures from the
+  risk engine, making missing-value and solver fallbacks explicit, and using stable norms.
+- NumPy, Ruff, and the pinned `setup-uv` action were advanced to their latest compatible patches.
 
 ## [1.10.0] - 2026-10-20
 

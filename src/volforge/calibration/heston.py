@@ -28,7 +28,8 @@ class CalibratableSurface(Protocol):
     failure_reasons: tuple[str, ...]
     maturities: tuple[float, ...]
 
-    def total_variance(self, maturity: float, log_moneyness: ArrayLike) -> FloatArray: ...
+    def total_variance(self, maturity: float, log_moneyness: ArrayLike) -> FloatArray:
+        raise NotImplementedError
 
 
 @dataclass(frozen=True, slots=True)
