@@ -33,7 +33,7 @@ dependencies = [
   "certifi>=2026.10.19",
   "cryptography>=50,<51",
   "numpy>=2.5.4,<3",
-  "pandas>=2.2,<4",
+  "pandas>=3.1.0,<4",
   "pillow>=13,<14",
   "scipy>=1.14,<2",
   "streamlit>=1.66.1,<2",
@@ -52,7 +52,7 @@ volforge = "volforge.cli:main"
 dev = [
   "pytest>=8.3,<10",
   "pytest-cov>=6,<8",
-  "ruff>=0.17.1,<1",
+  "ruff>=0.17.2,<1",
 ]
 
 [tool.hatch.build.targets.wheel]
